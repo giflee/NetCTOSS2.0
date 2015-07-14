@@ -1,0 +1,31 @@
+1)项目环境(spring + spring mvc + Mybatis)  ssm
+	导入jar包
+	jdbc、dbcp
+	myBatis
+	Spring ioc
+	Spring dao
+	Spring  整合mybatis
+	Spring Aop
+	Spring mvc
+2）配置文件
+	web.xml
+		dispatchServlet
+		characterEncoding.filter
+	applicationContext.xml
+		DataSource
+		SessionFactory
+		MapperScannerConfigurer
+		开启IOC注解扫描
+		开启mvc注解扫描
+		配置viewResolver
+资费管理
+select * from(
+select c.*,rownum r from(
+	select * from cost order by cost_id) c)where r <=#{end} and r>=#{begin}
+	
+	已知，当前页currentPage，
+		每页显示最大行pageSize
+	容易得出一个结论，公式
+	begin = (currentPage-1)*pageSize+1
+	end = currentPage*pageSize
+		

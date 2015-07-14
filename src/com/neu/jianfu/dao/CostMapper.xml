@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.neu.jianfu.dao.CostMapper">
+	<select id="findAll" resultMap="costmap">
+		select * from cost
+	</select>
+	<insert id="add" parameterType="com.neu.jianfu.entity.Cost">
+		insert into cost values(cost_seq.nextval,#{name,jdbcType=VARCHAR},#{baseDuration,jdbcType=INTEGER},
+		#{baseCost,jdbcType=DOUBLE},#{unitCost,jdbcType=DOUBLE},#{status,jdbcType=VARCHAR},
+		#{descr,jdbcType=VARCHAR},#{creatime,jdbcType=TIMESTAMP},#{startime,jdbcType=TIMESTAMP},
+		#{costType,jdbcType=VARCHAR})
+	</insert>
+	<delete id="delete">
+		delete from cost where cost_id = #{id}
+	</delete>
+	<select id="findById" resultType="com.neu.jianfu.entity.Cost">
+		select * from cost where cost_id = #{id}
+	</select>
+	<select id="findByPage" parameterType="com.neu.jianfu.page.CostPage" resultMap="costmap">
+		select * from(
+	select c.*,rownum r from(
+	select * from cost order by cost_id) c)where r &lt;=#{end} and r>=#{begin}
+	</select>
+	<select id="findRows" resultType="integer">
+		select count(*) from cost
+	</select>
+	<update id="update" parameterType="com.neu.jianfu.entity.Cost">
+		update cost set name = #{name,jdbcType=VARCHAR},base_duration = #{baseDuration,jdbcType=INTEGER},
+		base_cost = #{baseCost,jdbcType=DOUBLE},
+		unit_cost= #{unitCost,jdbcType=DOUBLE},
+		status = #{status,jdbcType=VARCHAR},
+		descr = #{descr,jdbcType=VARCHAR},
+		creatime = #{creatime,jdbcType=TIMESTAMP},
+		startime = #{startime,jdbcType=TIMESTAMP},
+		cost_type=#{costType,jdbcType=VARCHAR} where cost_id = #{costId,jdbcType=INTEGER}
+	</update>
+	<resultMap id="costmap" type="com.neu.jianfu.entity.Cost">
+ 		<result property="costId" column="cost_id"></result>
+ 		<result property="baseDuration" column="base_duration"></result>
+ 		<result property="baseCost" column="base_cost"></result>
+ 		<result property="unitCost" column="unit_cost"></result>
+ 		<result property="costType" column="cost_type"></result>
+ 	</resultMap>
+</mapper>
